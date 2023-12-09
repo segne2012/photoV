@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<link>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clock</title>
+    <style rel="stylesheet">
+        html, body{
+            height:100%;
+            border: 0;
+            margin: 0;
+            font-size: 60px;
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        @property --m {
+            syntax: "<integer>";
+            inherits: false;
+            initial-value: 0;
+        }
+        @property --s {
+            syntax: "<integer>";
+            inherits: false;
+            initial-value: 0;
+        }
+        @property --ms {
+            syntax: "<integer>";
+            inherits: false;
+            initial-value: 0;
+        }
+        .counter{
+            height: 100px;
+            display: grid;
+            grid-template-areas: "clock clock"
+            "start reset";
+            gap: 10px;
+            text-align: center;
+        }
+        .start{
+            grid-area: start;
+        }
+        .start::before{
+            content: "开始";
+        }
+        :checked~.start::before{
+            content: "暂停";
+        }
+        .reset{
+            grid-area: reset;
+        }
+        .btn{
+            background-color: orange;
+            padding: 10px;
+            color: white;
+            border-radius: 10px;
+            font-size: 30px;
+            height: auto;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .btn:hover{
+            filter: brightness(1.1);
+        }
+        .clock{
+            font-family: monospace;
+            grid-area: clock;
+            background-color: black;
+            border: 10px solid #333333;
+            border-radius: 12px;
+            padding: 10px;
+            color: white;
+            font-size: 60px;
+            text-align: center;
+            counter-reset: min var(--m) second var(--s) ms var(--ms);
+            animation: m 3600s infinite steps(60, end),
+            s 60s infinite steps(60, end),
+            ms 1s infinite steps(100, end);
+            animation-play-state: paused;
+        }
+        @keyframes m {
+            to {
+                --m: 59;
+            }
+        }
+        @keyframes s {
+            to {
+                --s: 59;
+            }
+        }
+        @keyframes ms {
+            to {
+                --ms: 99;
+            }
+        }
+        .clock::before{
+            content: counter(min, decimal-leading-zero) ":" counter(second, decimal-leading-zero) ":" counter(ms, decimal-leading-zero);
+        }
+        :checked~.clock {
+            animation-play-state: running;
+        }
+        .reset:active~.clock{
+            animation: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>计时器</h1>
+    <div class="counter">
+        <input type="checkbox" id="start" hidden="true" title="start" />
+        <label class="btn start" for="start"></label>
+        <div class="btn reset" >重置</div>
+        <div class="clock"></div>
+    </div>
+</body>
+</html>
