@@ -56,7 +56,8 @@ onSelected(fileList.value[0].url)
         transition: all 0.3s;
         img{
             height: 100%;
-            width: max-content;
+            width: auto;
+            min-width: 20px;
             object-fit: contain;
             transition: all 1s;
         }
@@ -75,6 +76,7 @@ onSelected(fileList.value[0].url)
             box-shadow: 0 0 5px 1px #fff;
             img{
                 object-fit: cover;
+                min-width: 50px;
             }
         }
     }
